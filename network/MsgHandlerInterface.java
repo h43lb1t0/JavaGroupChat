@@ -1,5 +1,6 @@
 package network;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -13,11 +14,12 @@ public interface MsgHandlerInterface extends Runnable {
     void sendMsg(Socket socket, String name, String msg) throws IOException;
 
     /**
-     * recives a message and the name of the chat partner who sent this message
-     * @return String Array with name and message
-     * @throws IOException when there're any conncetion problems
+     * Recives a message from and name from client
+     * @param myDataInputStream the input stram for the clients socket
+     * @param clientSocket clients socket
+     * @throws IOException when there're any conncetion problems'
      */
-    String[] receiveMsg() throws IOException;
+    void receiveMsg(DataInputStream myDataInputStream, Socket clientSocket) throws IOException;
 
     /**
      * send a msg to every connected client exept the client who orinal sent this message

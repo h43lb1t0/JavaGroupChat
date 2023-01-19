@@ -24,7 +24,7 @@ public class ClientMsgHandlerImpl implements ClientMsgHanderInterface{
         }
         while (true) {
             try {
-                ui.displayChatMsg(dais.readUTF(), dais.readUTF());
+                ui.displayChatMsg(dais.readUTF(), dais.readUTF()); //name, msg
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 try {

@@ -39,8 +39,12 @@ public class MsgHandlerImpl implements MsgHandlerInterface{
         }
     }
 
-    public String[] receiveMsg() {
-        return new String[2];
+    public void receiveMsg(DataInputStream myDataInputStream, Socket clientSocket) throws IOException {
+        String senderName = myDataInputStream.readUTF();
+        String senderMsg = myDataInputStream.readUTF();
+
+        ui.displayChatMsg(senderName, senderMsg);
+        this.sendMsgToEveryClientExeptTheoriginalSender(clientSocket, senderName, senderMsg);
     }
 
     public void run() {
@@ -56,11 +60,7 @@ public class MsgHandlerImpl implements MsgHandlerInterface{
         }
         while (true) {
             try {
-                String senderName = myDataInputStream.readUTF();
-                String senderMsg = myDataInputStream.readUTF();
-
-                ui.displayChatMsg(senderName, senderMsg);
-                this.sendMsgToEveryClientExeptTheoriginalSender(clientSocket, senderName, senderMsg);
+                receiveMsg(myDataInputStream, clientSocket);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
                 try {

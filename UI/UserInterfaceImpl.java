@@ -2,6 +2,7 @@ package UI;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import network.Protocol.*;
 
 public class UserInterfaceImpl implements UserInterface {
 
@@ -11,7 +12,7 @@ public class UserInterfaceImpl implements UserInterface {
 
     public String askForUserName() {
         System.out.println("What do you want to be called: ");
-        String name = userInputReader();
+        String name = userInputReader(false);
         System.out.println("You're: " + name);
         return name;
     }
@@ -19,7 +20,7 @@ public class UserInterfaceImpl implements UserInterface {
     public boolean askIfWantsToBeServer() {
         boolean server = false;
         System.out.println("do you want to be the server? (yes/no)");
-        switch (userInputReader().toLowerCase()) {
+        switch (userInputReader(false).toLowerCase()) {
             case "yes", "y" -> server = true;
             case "no", "n" -> server = false;
             default -> server = false;
@@ -36,10 +37,10 @@ public class UserInterfaceImpl implements UserInterface {
     }
 
     public String readChatMsgToBeSent() {
-        return userInputReader();
+        return userInputReader(true);
     }
 
-    public String userInputReader() {
+    public String userInputReader(boolean checkForProtocol) {
         String msg;
         
         try {
@@ -49,7 +50,16 @@ public class UserInterfaceImpl implements UserInterface {
             msg = "Error while trying to get other users message";
         }
 
-        return msg;
-        
+        if (checkForProtocol) {
+            AddProtocolImpl adder = new AddProtocolImpl(msg);
+            if (!adder.getIfIsProtocol()) {
+                return msg;
+            }
+        }
+        return "sent a protocol";
+    }
+
+    public void DisplayProtocolResult(String ProtocolResult) {
+        System.out.println(ProtocolResult);
     }
 }
