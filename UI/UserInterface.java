@@ -36,9 +36,16 @@ public interface UserInterface {
 
     /**
      * Get any input of the user
+     * @param checkForProtocol if the message is a protocol
      * @return the users Input
      * @throws IOException
      */
-    String userInputReader();
+    String userInputReader(boolean checkForProtocol);
+
+    /**
+     * displays the result of any protocol
+     * @param ProtocolResult the result of any protocol
+     */
+    void DisplayProtocolResult(String ProtocolResult);
 
 }
